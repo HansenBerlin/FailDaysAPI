@@ -1,24 +1,18 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DapperAPI.ProductMaster;
-using Microsoft.AspNetCore.Http;
+using DapperAPI.QueryController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DapperAPI.Controllers
+namespace DapperAPI.EndpointController
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GradeController : ControllerBase
+    public class GradesEndpointController : ControllerBase
     {
-        private readonly IStudentProvider _studentProvider;
-        private readonly IStudentRepository _studentRepository;
+        private readonly IStudentQueryController _studentQueryController;
 
-        public GradeController(IStudentProvider studentProvider, IStudentRepository studentRepository)
+        public GradesEndpointController(IStudentQueryController studentQueryController)
         {
-            _studentProvider = studentProvider;
-            _studentRepository = studentRepository;
+            _studentQueryController = studentQueryController;
         }
 
         // GET: api/Grade
@@ -39,7 +33,7 @@ namespace DapperAPI.Controllers
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
-            return _studentProvider.GetGrade(id).Result.ToString();
+            return _studentQueryController.GetGrade(id).Result.ToString();
         }
 
         // POST: api/Grade

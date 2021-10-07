@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DapperAPI.Models;
 
-namespace DapperAPI.ProductMaster
+namespace DapperAPI.QueryController
 {
-    public interface IStudentProvider
+    public interface IStudentQueryController
     {
         Task<IEnumerable<Student>> GetDatasets();
         Task<double> GetGrade(int studentId);
+        Task Create(Student student);
+
     }
 }

@@ -1,31 +1,26 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DapperAPI.ProductMaster;
-using Microsoft.AspNetCore.Http;
+using DapperAPI.Models;
+using DapperAPI.QueryController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DapperAPI.Controllers
+namespace DapperAPI.EndpointController
 {
-    [Route("api/[controller]")]
+    [Route("api/student")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class StudentEndpointController : ControllerBase
     {
-        private readonly IStudentProvider _studentProvider;
-        private readonly IStudentRepository _studentRepository;
+        private readonly IStudentQueryController studentQueryController;
 
-        public StudentController(IStudentProvider studentProvider,
-            IStudentRepository studentRepository)
+        public StudentEndpointController(IStudentQueryController studentQueryController)
         {
-            this._studentProvider = studentProvider;
-            this._studentRepository = studentRepository;
+            this.studentQueryController = studentQueryController;
         }
         
         [HttpGet]
         public async Task<IEnumerable<Student>> Get()
         {
-            return await _studentProvider.GetDatasets();
+            return await studentQueryController.GetDatasets();
         }
 
         
@@ -34,7 +29,7 @@ namespace DapperAPI.Controllers
         [HttpPost]
         public async Task Post([FromBody] Student student)
         {
-            await _studentRepository.Create(student);
+            await studentQueryController.Create(student);
         }
         
         /*

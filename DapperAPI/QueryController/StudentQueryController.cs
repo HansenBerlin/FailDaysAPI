@@ -3,15 +3,16 @@ using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DapperAPI.Database;
+using DapperAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DapperAPI.ProductMaster
+namespace DapperAPI.QueryController
 {
-    public class StudentProvider : IStudentProvider
+    public class StudentQueryController : IStudentQueryController
     {
         private readonly DatabaseConfig databaseConfig;
  
-        public StudentProvider(DatabaseConfig databaseConfig)
+        public StudentQueryController(DatabaseConfig databaseConfig)
         {
             this.databaseConfig = databaseConfig;
         }
@@ -26,8 +27,16 @@ namespace DapperAPI.ProductMaster
         {
             await using var connection = new SqliteConnection(databaseConfig.Name);
             var test = await connection.QueryAsync<double>(
-                $"SELECT AVG(Number)FROM Grade WHERE StudentId = {studentId.ToString()}");
+                $"SELECT AVG(Number)FROM Grade WHERE MatNr = {studentId.ToString()}");
             return test.AsList()[0];
+        }
+        
+        public async Task Create(Student student)
+        {
+            await using var connection = new SqliteConnection(databaseConfig.Name);
+            //double test = await connection.ExecuteAsync("SELECT AVG(Number)FROM Grade WHERE StudentId = @MatNr");
+            await connection.ExecuteAsync("INSERT INTO Student (MatNr, CourseId, FirstName, LastName)" +
+                                          "VALUES (@MatNr, @CourseId, @FirstName, @LastName);", student);
         }
     }
 }

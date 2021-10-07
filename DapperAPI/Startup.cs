@@ -1,6 +1,6 @@
 using System;
 using DapperAPI.Database;
-using DapperAPI.ProductMaster;
+using DapperAPI.QueryController;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +23,7 @@ namespace DapperAPI
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder => 
-                    builder.WithOrigins("https://localhost:5004")
+                    builder.WithOrigins("https://localhost:5006")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
@@ -33,8 +33,9 @@ namespace DapperAPI
             services.AddSingleton(new DatabaseConfig { Name = Configuration["DatabaseName"] });
 
             services.AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
-            services.AddSingleton<IStudentProvider, StudentProvider>();
-            services.AddSingleton<IStudentRepository, StudentRepository>();
+            services.AddSingleton<IStudentQueryController, StudentQueryController>();
+            services.AddSingleton<ICourseQueryController, CourseQueryController>();
+            services.AddSingleton<IGradesQueryController, GradesQueryController>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
