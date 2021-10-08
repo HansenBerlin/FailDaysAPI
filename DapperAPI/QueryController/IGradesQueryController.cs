@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DapperAPI.Models;
 
 namespace DapperAPI.QueryController
 {
     public interface IGradesQueryController
     {
-        Task<IEnumerable<GradeCategorys>> GetCategorys();
+        Task<IEnumerable<string>> GetCategorys();
+        Task UpdateGrade(string grade, int gradeId);
+        Task CreateGradesForStudent(int studentId);
+
+
     }
 }
