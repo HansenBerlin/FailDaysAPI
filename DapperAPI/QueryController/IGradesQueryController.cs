@@ -6,7 +6,7 @@ namespace DapperAPI.QueryController
     public interface IGradesQueryController
     {
         Task<IEnumerable<string>> GetCategorys();
-        Task UpdateGrade(string grade, int gradeId);
+        Task UpdateGrade(decimal grade, int gradeId);
         Task CreateGradesForStudent(int studentId);
 
 

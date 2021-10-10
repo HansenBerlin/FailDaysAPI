@@ -10,5 +10,7 @@ namespace DapperAPI.QueryController
         Task<double> GetGrade(int studentId);
         Task Create(Student student);
         Task<IEnumerable<Grade>> GetGradeObjectPerStudent(int studentId);
+        Task DeleteAllRows(string tableName);
+
     }
 }

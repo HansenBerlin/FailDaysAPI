@@ -27,30 +27,33 @@ namespace DapperAPI.QueryController
         {
             await using var connection = new SqliteConnection(databaseConfig.Name);
             IEnumerable<string> categorys = await connection.QueryAsync<string>("SELECT Type FROM GradeCategory;");
-            connection.Open();
+            await connection.OpenAsync();
             foreach (string category in categorys)
             {
                 SqliteCommand command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Grade (Number, StudentId, Category)";
+                //command.CommandText = "INSERT INTO Grade (Number, StudentId, Category)";
                 command.CommandText = "INSERT INTO Grade (Number, StudentId, Category) VALUES (@nmb, @stid, @cat)";
-                command.Parameters.AddWithValue("nmb", 0.0);
+                command.Parameters.AddWithValue("nmb", 0);
                 command.Parameters.AddWithValue("stid", studentId);
                 command.Parameters.AddWithValue("cat", category);
                 command.ExecuteNonQuery();
             }
+
+            await connection.CloseAsync();
         }
         
-        public async Task UpdateGrade(string grade, int gradeId)
+        public async Task UpdateGrade(decimal grade, int gradeId)
         {
-            double parseString = double.Parse(grade, CultureInfo.CurrentCulture);
-            parseString = Math.Round(parseString, 1);
+            //double parseString = double.Parse(grade, CultureInfo.CurrentCulture);
+            //parseString = Math.Round(parseString, 1);
             var connection = new SqliteConnection(databaseConfig.Name);
-            connection.Open();
+            await connection.OpenAsync();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = "UPDATE Grade SET Number = :number WHERE Id =:idnr";
             command.Parameters.Add("idnr", SqliteType.Integer).Value = gradeId;
-            command.Parameters.Add("number", SqliteType.Real).Value = parseString;
+            command.Parameters.Add("number", SqliteType.Real).Value = grade;
             command.ExecuteNonQuery();
+            await connection.CloseAsync();
         }
     }
 }
