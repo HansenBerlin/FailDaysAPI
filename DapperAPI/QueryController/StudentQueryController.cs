@@ -33,15 +33,7 @@ namespace DapperAPI.QueryController
             return test.AsList()[0];
         }
         
-        public async Task<IEnumerable<Grade>> GetGradeObjectPerStudent(int studentId)
-        {
-            Int64 testInt = studentId;
-            await using var connection = new SqliteConnection(databaseConfig.Name);
-            var test = await connection.QueryAsync<Grade>(
-                $"SELECT * FROM Grade WHERE StudentId = {testInt}");
-            return test;
-            //SELECT CAST(field123 AS REAL) AS field123 FROM ...
-        }
+        
         
         public async Task Create(Student student)
         {

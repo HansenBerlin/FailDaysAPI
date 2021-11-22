@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Dapper;
 using DapperAPI.Database;
+using DapperAPI.Models;
 using Microsoft.Data.Sqlite;
 
 namespace DapperAPI.QueryController
@@ -22,6 +23,14 @@ namespace DapperAPI.QueryController
             await using var connection = new SqliteConnection(databaseConfig.Name);
             return await connection.QueryAsync<string>("SELECT Type FROM GradeCategory;");
         }
+        
+        public async Task<IEnumerable<Grade>> GetGradeObjectPerStudent(int studentId)
+        {
+            Int64 testInt = studentId;
+            await using var connection = new SqliteConnection(databaseConfig.Name);
+            return await connection.QueryAsync<Grade>(
+                $"SELECT * FROM GradeView WHERE StudentId = {testInt}");
+        }
 
         public async Task CreateGradesForStudent(int studentId)
         {
@@ -31,7 +40,6 @@ namespace DapperAPI.QueryController
             foreach (string category in categorys)
             {
                 SqliteCommand command = connection.CreateCommand();
-                //command.CommandText = "INSERT INTO Grade (Number, StudentId, Category)";
                 command.CommandText = "INSERT INTO Grade (Number, StudentId, Category) VALUES (@nmb, @stid, @cat)";
                 command.Parameters.AddWithValue("nmb", 0);
                 command.Parameters.AddWithValue("stid", studentId);
@@ -44,8 +52,6 @@ namespace DapperAPI.QueryController
         
         public async Task UpdateGrade(decimal grade, int gradeId)
         {
-            //double parseString = double.Parse(grade, CultureInfo.CurrentCulture);
-            //parseString = Math.Round(parseString, 1);
             var connection = new SqliteConnection(databaseConfig.Name);
             await connection.OpenAsync();
             SqliteCommand command = connection.CreateCommand();

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Dapper;
 using DapperAPI.Database;
-using DapperAPI.Models;
 using DapperAPI.Utilities;
 using Microsoft.Data.Sqlite;
 
@@ -34,7 +33,7 @@ namespace DapperAPI.QueryController
             int firstWorksheetTeam = 0;
             int projectTeam = 0;
             
-            for (int i = 0; i < 36; i++)
+            for (int i = 0; i < 36000; i++)
             {
                 var student = randomObject.CreateRandomStudent();
                 studentQueryController.Create(student);
@@ -48,9 +47,9 @@ namespace DapperAPI.QueryController
                 if (i % 6 == 0)
                 {
                     projectTeam++;
-                    string subject = randomObject.Subject(projectTeam - 1);
+                    //string subject = randomObject.Subject(projectTeam - 1);
                     CreateTeam();
-                    CreateTeamWork(projectTeam + lastIndex, "Projektarbeit", subject);
+                    CreateTeamWork(projectTeam + lastIndex, "Projektarbeit", "subject");
                 }
 
                 CreateTeamMember(firstWorksheetTeam + lastIndex, student.MatNr);

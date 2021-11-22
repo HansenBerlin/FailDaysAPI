@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DapperAPI.Models;
 
 namespace DapperAPI.QueryController
 {
@@ -8,7 +9,6 @@ namespace DapperAPI.QueryController
         Task<IEnumerable<string>> GetCategorys();
         Task UpdateGrade(decimal grade, int gradeId);
         Task CreateGradesForStudent(int studentId);
-
-
+        Task<IEnumerable<Grade>> GetGradeObjectPerStudent(int studentId);
     }
 }

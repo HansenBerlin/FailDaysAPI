@@ -20,7 +20,7 @@ namespace DapperAPI.Utilities
                 FirstName = FirstName(),
                 LastName = LastName(),
                 CourseId = course[2],
-                MatNr = Rn(111111, 999999)
+                MatNr = Rn(11111111, 99999999)
             };
             return student;
         }
